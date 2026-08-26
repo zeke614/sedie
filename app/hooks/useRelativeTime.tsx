@@ -22,7 +22,10 @@ export function useRelativeTime(lastUpdated: Date | null): string {
   }
 
   useEffect(() => {
-    if (!lastUpdated) return;
+    if (!lastUpdated) {
+      setRelativeTime("");
+      return;
+    }
 
     setRelativeTime(format(lastUpdated));
     const interval = setInterval(
@@ -30,7 +33,7 @@ export function useRelativeTime(lastUpdated: Date | null): string {
       RELATIVE_TIME_REFRESH_MS,
     );
     return () => clearInterval(interval);
-  }, [lastUpdated]);
+  }, [lastUpdated, t]);
 
   return relativeTime;
 }

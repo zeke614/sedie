@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import countriesData from "@/app/lib/data";
+import { CheckIcon, ChevronDownIcon, SearchIcon } from "@/app/components/icons";
 
 interface Currency {
   code: string;
@@ -40,10 +41,10 @@ export default function CurrencyDropdown({ selected, setSelected }: Props) {
   );
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="shrink-0">
       <button
         onClick={toggleDropdown}
-        className="flex font- items-center w-fit gap-2 cursor-pointer"
+        className="flex items-center w-fit gap-2 cursor-pointer"
       >
         <img
           src={`https://flagcdn.com/${selected.flag}.svg`}
@@ -51,9 +52,9 @@ export default function CurrencyDropdown({ selected, setSelected }: Props) {
           className="w-5 h-3.5 rounded-none object-cover"
         />
         <span className="text-[17px] font-medium">{selected.code}</span>
-        <i
-          className={`bx bx-chevron-down text-2xl transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-        ></i>
+        <ChevronDownIcon
+          className={`size-5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       <AnimatePresence>
@@ -67,7 +68,7 @@ export default function CurrencyDropdown({ selected, setSelected }: Props) {
           >
             <div className="relative">
               <div className="absolute left-0 text-lg inset-y-0 flex items-center pl-2 pointer-events-none">
-                <i className="bx bx-search text-black/50 dark:text-gray-400"></i>
+                <SearchIcon className="size-4 text-black/50 dark:text-gray-400" />
               </div>
               <input
                 type="text"
@@ -102,7 +103,7 @@ export default function CurrencyDropdown({ selected, setSelected }: Props) {
                         </span>
                       </div>
                       {selected.code === currency.code && (
-                        <i className="bx bx-check font-normal text-[#256F5C]"></i>
+                        <CheckIcon className="size-4 text-[#256F5C]" />
                       )}
                     </button>
                   </li>

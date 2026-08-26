@@ -1,30 +1,25 @@
 "use client";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faXTwitter,
-  faInstagram,
-  faGithub,
-} from "@fortawesome/free-brands-svg-icons";
 import { useTranslation } from "react-i18next";
+import { XLogoIcon, InstagramIcon, GithubIcon } from "@/app/components/icons";
 
 type SocialLink = {
   label: string;
   href: string;
-  icon: typeof faXTwitter | typeof faInstagram | typeof faGithub;
+  Icon: React.ElementType;
 };
 
 const socialLinks: SocialLink[] = [
-  { label: "X / Twitter", href: "https://x.com/devZeke146", icon: faXTwitter },
+  { label: "X / Twitter", href: "https://x.com/devZeke146", Icon: XLogoIcon },
   {
     label: "Instagram",
     href: "https://instagram.com/zeke.146/",
-    icon: faInstagram,
+    Icon: InstagramIcon,
   },
   {
     label: "GitHub",
     href: "https://github.com/zeke614/exchango.git",
-    icon: faGithub,
+    Icon: GithubIcon,
   },
 ];
 
@@ -89,7 +84,7 @@ export default function Footer() {
 
         <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-black/60 dark:text-gray-300">
           <div className="flex sm:hidden items-center gap-0">
-            {socialLinks.map(({ label, href, icon }) => (
+            {socialLinks.map(({ label, href, Icon }) => (
               <a
                 key={label}
                 href={href}
@@ -97,10 +92,10 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 aria-label={`Visit our ${label} page`}
                 className="w-10 h-10 flex items-center justify-center text-black/50 dark:text-gray-400 hover:text-[#256F5C] hover:bg-[#256F5C]/8 transition-all duration-200 ease-out
-                  hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg hover:rotate-[-4deg]
-                  active:translate-x-0 active:translate-y-0 active:shadow-none active:rotate-0"
+                 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg hover:rotate-[-4deg]
+                 active:translate-x-0 active:translate-y-0 active:shadow-none active:rotate-0"
               >
-                <FontAwesomeIcon icon={icon} className="text-[1.1875rem]" />
+                <Icon className="size-[1.1875rem]" />
               </a>
             ))}
           </div>
@@ -129,7 +124,7 @@ export default function Footer() {
           </div>
 
           <div className="hidden sm:flex items-center gap-0">
-            {socialLinks.map(({ label, href, icon }) => (
+            {socialLinks.map(({ label, href, Icon }) => (
               <a
                 key={label}
                 href={href}
@@ -137,10 +132,10 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 aria-label={`Visit our ${label} page`}
                 className="w-10 h-10 flex items-center justify-center text-black/50 dark:text-gray-400 hover:text-[#256F5C] hover:bg-[#256F5C]/8 transition-all duration-200 ease-out
-                  hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg hover:rotate-[-4deg]
-                  active:translate-x-0 active:translate-y-0 active:shadow-none active:rotate-0"
+                 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg hover:rotate-[-4deg]
+                 active:translate-x-0 active:translate-y-0 active:shadow-none active:rotate-0"
               >
-                <FontAwesomeIcon icon={icon} className="text-[1.1875rem]" />
+                <Icon className="size-[1.1875rem]" />
               </a>
             ))}
           </div>

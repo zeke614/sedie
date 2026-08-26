@@ -12,8 +12,8 @@ export async function GET(request: Request) {
 
   // 1. Extract the actual user's IP from headers
   const forwardedFor = request.headers.get("x-forwarded-for");
-  console.log("[geo] x-forwarded-for:", forwardedFor);
-  let clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : "";
+  const realIp = request.headers.get("x-real-ip");
+  let clientIp = forwardedFor?.split(",")[0].trim() || realIp?.trim() || "";
 
   // 2. Ignore localhost IPs (dev environment)
   if (clientIp === "::1" || clientIp === "127.0.0.1") {
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
     // 3. Explicitly pass the user's IP to IPInfo.
     // If clientIp is empty (like on localhost), it defaults to the server's public IP.
     const url = clientIp
-      ? `https://ipinfo.io/${clientIp}/json?token=${token}`
+      ? `https://ipinfo.io/${encodeURIComponent(clientIp)}/json?token=${token}`
       : `https://ipinfo.io/json?token=${token}`;
 
     const res = await fetch(url);
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     console.error("Geo Proxy Error:", error);
     return NextResponse.json(
       { error: "Failed to fetch geolocation" },
-      { status: 500 },
+      { status: 502 },
     );
   }
 }

@@ -93,17 +93,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${satoshi.variable} ${outfit.variable}`}
     >
-      <head>
-        <link
-          href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css"
-          rel="stylesheet"
-        />
-        <link
-          href="https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css"
-          rel="stylesheet"
-        />
-      </head>
-
       <body className="font-satoshi">
         <ThemeProvider>
           <I18nProvider>

@@ -9,6 +9,8 @@ type Currency = (typeof countriesData.currencies)[number];
 
 export function useDetectedCurrency(setCurrency: (currency: Currency) => void) {
   useEffect(() => {
+    const controller = new AbortController();
+
     async function detect() {
       const cached = readCache<Currency>(CACHE_KEYS.userCurrency);
       if (cached) {
@@ -17,14 +19,14 @@ export function useDetectedCurrency(setCurrency: (currency: Currency) => void) {
       }
 
       try {
-        const res = await fetch("/api/geo");
+        const res = await fetch("/api/geo", { signal: controller.signal });
         if (!res.ok) throw new Error("Geo fetch failed");
 
         const data = await res.json();
         const countryCode = data.country?.toUpperCase();
 
         const currency = resolveCurrencyFromCountry(countryCode);
-        if (currency) {
+        if (!controller.signal.aborted && currency) {
           setCurrency(currency);
           writeCache(CACHE_KEYS.userCurrency, currency);
         }
@@ -34,6 +36,11 @@ export function useDetectedCurrency(setCurrency: (currency: Currency) => void) {
     }
 
     detect();
+
+    return () => {
+      // Abort the geo lookup if this component unmounts before IPInfo responds.
+      controller.abort();
+    };
   }, [setCurrency]);
 }
 

@@ -4,12 +4,11 @@ import { motion } from "framer-motion";
 import posthog from "posthog-js";
 import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { NumericFormat } from "react-number-format";
 import { useTranslation } from "react-i18next";
 
 import countriesData from "@/app/lib/data";
+import { RightLeftIcon } from "@/app/components/icons";
 import { useDetectedCurrency } from "@/app/hooks/useDetectedCurrency";
 import { useRelativeTime } from "@/app/hooks/useRelativeTime";
 import { computeRate, type RatesMap } from "@/app/lib/rates";
@@ -45,7 +44,7 @@ export default function Converter({ initialRates, fetchedAt }: Props) {
   const [fromCurrency, setFromCurrency] = useState(DEFAULT_FROM);
   const [toCurrency, setToCurrency] = useState(DEFAULT_TO);
   const [amount, setAmount] = useState(DEFAULT_AMOUNT);
-  const [swapRotation, setSwapRotation] = useState(90);
+  const [swapRotation, setSwapRotation] = useState(0);
 
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -72,16 +71,14 @@ export default function Converter({ initialRates, fetchedAt }: Props) {
       return;
     }
 
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
+    const converted = parsedAmount * rate;
 
     debounceTimerRef.current = setTimeout(() => {
       posthog.capture(PH_EVENTS.currencyConverted, {
         from_currency: fromCurrency.code,
         to_currency: toCurrency.code,
         amount: parsedAmount,
-        converted_amount: parseFloat(convertedAmount),
+        converted_amount: converted,
         rate: rate,
       });
     }, 800);
@@ -91,12 +88,21 @@ export default function Converter({ initialRates, fetchedAt }: Props) {
         clearTimeout(debounceTimerRef.current);
       }
     };
-    // Optimized dependencies: Remove raw 'amount' and 'convertedAmount' to avoid duplicate triggers
-  }, [parsedAmount, fromCurrency.code, toCurrency.code, rate]);
+    // Keep derived analytics values inside the effect so the debounced callback
+    // cannot close over a stale formatted string.
+  }, [amount, parsedAmount, fromCurrency.code, toCurrency.code, rate]);
 
   function handleAmountChange(raw: string) {
     setAmount(raw.replace(/,/g, ""));
   }
+
+  const formatDisplayAmount = (val: string) => {
+    const [integer, decimal] = val.split(".");
+    const formattedInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return decimal !== undefined
+      ? `${formattedInteger}.${decimal}`
+      : formattedInteger;
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let cleanedValue = e.target.value.replace(/[^0-9.]/g, "");
@@ -200,7 +206,7 @@ export default function Converter({ initialRates, fetchedAt }: Props) {
                 <input
                   inputMode="decimal"
                   aria-label="Enter amount to convert"
-                  value={amount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  value={formatDisplayAmount(amount)}
                   onChange={handleInputChange}
                   className="outline-none border-none w-full bg-transparent text-lg text-end font-medium appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none placeholder:text-lg"
                   placeholder="0.00"
@@ -215,13 +221,10 @@ export default function Converter({ initialRates, fetchedAt }: Props) {
             whileHover={{ scale: 1.06 }}
             animate={{ rotate: swapRotation }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            className="text-2xl my-7 items-center bg-[#256F5C] cursor-pointer rounded-full p-2.25 justify-center flex"
+            className="text-2xl my-7 items-center bg-[#256F5C] cursor-pointer rounded-full p-2 justify-center flex"
             aria-label="Swap currencies"
           >
-            <FontAwesomeIcon
-              icon={faRightLeft}
-              className="text-white text-sm"
-            />
+            <RightLeftIcon className="size-4 text-white" />
           </motion.button>
 
           {/* To currency + converted amount */}
@@ -276,6 +279,7 @@ export default function Converter({ initialRates, fetchedAt }: Props) {
           <CurrencyHistoryChart
             base={fromCurrency.code}
             target={toCurrency.code}
+            currentRate={rate}
           />
         </div>
       </section>

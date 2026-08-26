@@ -6,11 +6,21 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import countriesData from "@/app/lib/data";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  DesktopIcon,
+  GlobeIcon,
+  MobileIcon,
+  MoonIcon,
+  SunIcon,
+  TranslateIcon,
+} from "@/app/components/icons";
 
 const themes = [
-  { value: "light", label: "Light", icon: "bx bx-sun" },
-  { value: "dark", label: "Dark", icon: "bx bx-moon" },
-  { value: "system", label: "System", icon: "bx bx-desktop" },
+  { value: "light", label: "Light", Icon: SunIcon },
+  { value: "dark", label: "Dark", Icon: MoonIcon },
+  { value: "system", label: "System" },
 ];
 
 export default function Header() {
@@ -18,10 +28,12 @@ export default function Header() {
 
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [showLanguageOverlay, setShowLanguageOverlay] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const languageTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
   const themeDropdownRef = useRef<HTMLDivElement>(null);
@@ -31,6 +43,20 @@ export default function Header() {
   // during SSR and createPortal would throw if called too early.
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    const updateDeviceIcon = (event?: MediaQueryListEvent) => {
+      setIsMobile(event ? event.matches : mobileQuery.matches);
+    };
+
+    updateDeviceIcon();
+    mobileQuery.addEventListener("change", updateDeviceIcon);
+
+    // Keep the System icon synchronized if the viewport changes after mount.
+    return () => mobileQuery.removeEventListener("change", updateDeviceIcon);
   }, []);
 
   useEffect(() => {
@@ -60,25 +86,41 @@ export default function Header() {
     };
   }, [showDropdown, showThemeDropdown]);
 
+  useEffect(() => {
+    return () => {
+      if (languageTimerRef.current) {
+        clearTimeout(languageTimerRef.current);
+      }
+    };
+  }, []);
+
   const changeLanguage = (lang: string) => {
+    if (languageTimerRef.current) {
+      clearTimeout(languageTimerRef.current);
+    }
+
     setShowLanguageOverlay(true);
-    setTimeout(() => {
+
+    languageTimerRef.current = setTimeout(() => {
       i18n.changeLanguage(lang);
       setShowLanguageOverlay(false);
       setShowDropdown(false);
+      languageTimerRef.current = null;
     }, 1000);
   };
 
-  const getThemeIcon = (currentTheme: string | undefined) => {
+  const CurrentThemeIcon = (currentTheme: string | undefined) => {
     switch (currentTheme) {
       case "light":
-        return "bx bx-sun";
+        return SunIcon;
       case "dark":
-        return "bx bx-moon";
+        return MoonIcon;
       default:
-        return "bx bx-desktop";
+        return isMobile ? MobileIcon : DesktopIcon;
     }
   };
+
+  const ThemeIcon = CurrentThemeIcon(theme);
 
   return (
     <>
@@ -103,131 +145,139 @@ export default function Header() {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="fixed inset-0 z-100 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-md"
               >
-                <i className="bx bx-translate text-[3rem] text-[#256F5C] animate-bounce"></i>
+                <TranslateIcon className="size-9 text-[#256F5C] animate-bounce" />
               </motion.div>
             )}
           </AnimatePresence>,
           document.body,
         )}
 
-      {!showLanguageOverlay && (
-        <header className="w-full mx-auto max-w-3xl">
-          <div className="flex items-center justify-between h-15 px-5 sm:px-8 lg:px-0">
-            <a href="/" className="text-lg font-bold leading-none">
-              exchan<span className="text-[#256F5C]">go</span>
-            </a>
+      <header className="w-full mx-auto max-w-3xl px-5 sm:px-8 lg:px-0">
+        <div className="flex items-center justify-between h-15">
+          <a href="/" className="text-lg font-bold leading-none">
+            exchan<span className="text-[#256F5C]">go</span>
+          </a>
 
-            <div className="flex items-center gap-4">
-              <div className="relative" ref={themeDropdownRef}>
-                {mounted ? (
-                  <button
-                    aria-label="Change Theme"
-                    className="flex items-center gap-1 font-bold uppercase cursor-pointer transition-colors duration-150"
-                    onClick={() => {
-                      setShowThemeDropdown(!showThemeDropdown);
-                      setShowDropdown(false);
-                    }}
+          <div className="flex items-center gap-4">
+            <div className="relative" ref={themeDropdownRef}>
+              {mounted ? (
+                <button
+                  aria-label="Change Theme"
+                  className="flex items-center gap-1 font-bold uppercase cursor-pointer transition-colors duration-150"
+                  onClick={() => {
+                    setShowThemeDropdown(!showThemeDropdown);
+                    setShowDropdown(false);
+                  }}
+                >
+                  <ThemeIcon className="size-4" />
+                  <ChevronDownIcon
+                    className={`size-4 transition-transform duration-200 ${showThemeDropdown ? "rotate-180" : ""}`}
+                  />
+                </button>
+              ) : (
+                <div className="w-8.5 h-5 rounded-none bg-black/5 dark:bg-white/5 animate-pulse"></div>
+              )}
+
+              <AnimatePresence>
+                {showThemeDropdown && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="absolute right-0 top-8 w-38 border-2 border-black/8 dark:border-white/8 bg-white dark:bg-[#242424] rounded-none p-1.5 shadow-lg z-10"
                   >
-                    <i
-                      className={`${getThemeIcon(theme)} text-base leading-none`}
-                    ></i>
-                    <i
-                      className={`bx bx-chevron-down text-xl leading-none transition-transform duration-200 ${showThemeDropdown ? "rotate-180" : ""}`}
-                    ></i>
-                  </button>
-                ) : (
-                  <div className="w-8.5 h-5 rounded-none bg-black/5 dark:bg-white/5 animate-pulse"></div>
-                )}
+                    <ul className="text-[0.9375rem] space-y-0.5">
+                      {themes.map(({ value, label, Icon }) => {
+                        const ThemeOptionIcon =
+                          value === "system"
+                            ? isMobile
+                              ? MobileIcon
+                              : DesktopIcon
+                            : Icon;
 
-                <AnimatePresence>
-                  {showThemeDropdown && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="absolute right-0 top-8 w-38 border-2 border-black/8 dark:border-white/8 bg-white dark:bg-[#242424] rounded-none p-1.5 shadow-lg z-10"
-                    >
-                      <ul className="text-[0.9375rem] space-y-0.5">
-                        {themes.map((option) => (
-                          <li key={option.value}>
+                        return (
+                          <li key={value}>
                             <button
                               onClick={() => {
-                                setTheme(option.value);
+                                setTheme(value);
                                 setShowThemeDropdown(false);
                               }}
                               className="w-full flex items-center justify-between px-2 py-1.5 text-left hover:bg-gray-50 dark:hover:bg-white/5 rounded-none transition-colors cursor-pointer"
                             >
                               <div className="flex items-center gap-2">
-                                <i className={`${option.icon} text-[1rem]`}></i>
-                                <span>{option.label}</span>
+                                {ThemeOptionIcon && (
+                                  <ThemeOptionIcon className="size-4" />
+                                )}
+                                <span>{label}</span>
                               </div>
-                              {mounted && theme === option.value && (
-                                <i className="bx bx-check text-[#256F5C] text-lg"></i>
+                              {mounted && theme === value && (
+                                <CheckIcon className="size-4 text-[#256F5C]" />
                               )}
                             </button>
                           </li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                        );
+                      })}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  aria-label={t("aria.changeLanguage")}
-                  className="flex items-center gap-1 text-sm font-bold uppercase cursor-pointer transition-colors duration-150"
-                  onClick={() => {
-                    setShowDropdown(!showDropdown);
-                    setShowThemeDropdown(false);
-                  }}
-                >
-                  <i className="bx bx-globe-stand text-base leading-none"></i>
-                  <span>{i18n.language}</span>
-                  <i
-                    className={`bx bx-chevron-down text-[1.25rem] leading-none transition-transform duration-200 ${
-                      showDropdown ? "rotate-180" : ""
-                    }`}
-                  ></i>
-                </button>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                aria-label={t("aria.changeLanguage")}
+                className="flex items-center gap-1 text-sm font-bold uppercase cursor-pointer transition-colors duration-150"
+                onClick={() => {
+                  setShowDropdown(!showDropdown);
+                  setShowThemeDropdown(false);
+                }}
+              >
+                <GlobeIcon className="size-4" />
+                <span>{i18n.language}</span>
+                <ChevronDownIcon
+                  className={`size-4 transition-transform duration-200 ${
+                    showDropdown ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
 
-                <AnimatePresence>
-                  {showDropdown && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="absolute right-0 top-8 w-42 border-2 border-black/8 dark:border-white/8 bg-white dark:bg-[#242424] rounded-none py-3 px-1.5 shadow-lg z-10"
-                    >
-                      <p className="font-bold text-[0.9375rem] mb-2 px-1">
-                        {t("language.title")}
-                      </p>
-                      <ul className="text-[0.9375rem] space-y-0.5">
-                        {countriesData.languages.map(({ code, label }) => (
-                          <li key={code}>
-                            <button
-                              onClick={() => changeLanguage(code)}
-                              className="w-full flex items-center justify-between px-2 py-1.5 text-left hover:bg-gray-50 dark:hover:bg-white/5 rounded-none transition-colors cursor-pointer"
-                            >
-                              <span>{label}</span>
-                              {i18n.language === code && (
-                                <i className="bx bx-check text-[#256F5C] text-lg"></i>
-                              )}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <AnimatePresence>
+                {showDropdown && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="absolute right-0 top-8 w-42 border-2 border-black/8 dark:border-white/8 bg-white dark:bg-[#242424] rounded-none py-3 px-1.5 shadow-lg z-10"
+                  >
+                    <p className="font-bold text-[0.9375rem] mb-2 px-1">
+                      {t("language.title")}
+                    </p>
+                    <ul className="text-[0.9375rem] space-y-0.5">
+                      {countriesData.languages.map(({ code, label }) => (
+                        <li key={code}>
+                          <button
+                            onClick={() => changeLanguage(code)}
+                            className="w-full flex items-center justify-between px-2 py-1.5 text-left hover:bg-gray-50 dark:hover:bg-white/5 rounded-none transition-colors cursor-pointer"
+                          >
+                            <span>{label}</span>
+                            {i18n.language === code && (
+                              <CheckIcon className="size-4 text-[#256F5C]" />
+                            )}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
-          <div className="border-t border-[1.5px] border-black/6 dark:border-white/6"></div>
-        </header>
-      )}
+        </div>
+
+        <div className="border-t border-[1.5px] border-black/6 dark:border-white/6"></div>
+      </header>
     </>
   );
 }
