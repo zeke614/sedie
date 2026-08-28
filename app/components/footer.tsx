@@ -18,7 +18,7 @@ const socialLinks: SocialLink[] = [
   },
   {
     label: "GitHub",
-    href: "https://github.com/zeke614/exchango.git",
+    href: "https://github.com/zeke614/sedie.git",
     Icon: GithubIcon,
   },
 ];
@@ -33,9 +33,7 @@ export default function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_2fr] gap-10 sm:gap-4 py-12">
           <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-3">
-            <h2 className="text-lg font-bold leading-none">
-              exchan<span className="text-[#256F5C]">go</span>
-            </h2>
+            <h2 className="text-lg font-bold leading-none">sedie</h2>
             <p className="text-black/60 dark:text-gray-300 leading-relaxed whitespace-pre-line max-w-[22ch] md:max-w-none">
               {t("footer.value")}
             </p>
@@ -95,7 +93,7 @@ export default function Footer() {
                  hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg hover:rotate-[-4deg]
                  active:translate-x-0 active:translate-y-0 active:shadow-none active:rotate-0"
               >
-                <Icon className="size-[1.1875rem]" />
+                <Icon className="size-4.75" />
               </a>
             ))}
           </div>
@@ -106,7 +104,7 @@ export default function Footer() {
                 &copy; {new Date().getFullYear()}
               </span>
               <span className="font-bold text-black dark:text-white">
-                exchan<span className="text-[#256F5C]">go</span>
+                sedie
               </span>
             </p>
             ·
@@ -135,7 +133,7 @@ export default function Footer() {
                  hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg hover:rotate-[-4deg]
                  active:translate-x-0 active:translate-y-0 active:shadow-none active:rotate-0"
               >
-                <Icon className="size-[1.1875rem]" />
+                <Icon className="size-4.75" />
               </a>
             ))}
           </div>

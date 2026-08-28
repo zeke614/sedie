@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/_next/", "/api/"],
     },
-    sitemap: "https://exchangoio.vercel.app/sitemap.xml",
+    sitemap: "https://sedie.vercel.app/sitemap.xml",
   };
 }

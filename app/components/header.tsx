@@ -155,7 +155,7 @@ export default function Header() {
       <header className="w-full mx-auto max-w-3xl px-5 sm:px-8 lg:px-0">
         <div className="flex items-center justify-between h-15">
           <a href="/" className="text-lg font-bold leading-none">
-            exchan<span className="text-[#256F5C]">go</span>
+            sedie
           </a>
 
           <div className="flex items-center gap-4">

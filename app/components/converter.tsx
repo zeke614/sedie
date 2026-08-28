@@ -135,9 +135,7 @@ export default function Converter({ initialRates, fetchedAt }: Props) {
         <div className="max-w-2xl mx-auto gap-y-2 text-center">
           <h2 className="text-center text-lg">
             {t("welcome.welcomeLine1")}
-            <span className="font-bold text-lg">
-              exchan<span className="text-[#256F5C]">go</span>,
-            </span>
+            <span className="font-bold text-lg">sedie,</span>
             <br />
             {t("welcome.welcomeLine2")}
           </h2>

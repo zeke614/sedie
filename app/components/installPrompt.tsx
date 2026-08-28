@@ -106,7 +106,7 @@ export default function InstallPrompt() {
       <InstallIcon className="size-7 text-[#256F5C] shrink-0" />
 
       <div className="flex-1 min-w-0">
-        <p className="font-bold leading-tight">Install Exchango</p>
+        <p className="font-bold leading-tight">Install sedie</p>
         <p className="text-sm text-black/55 dark:text-gray-300 leading-tight mt-1">
           {isIOS
             ? "Tap Share → Add to Home Screen"

@@ -4,6 +4,7 @@ import { Outfit } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { I18nProvider } from "@/app/components/i18nProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import "flag-icons/css/flag-icons.min.css";
 import "./globals.css";
 import { ThemeProvider } from "./components/themeProvider";
 
@@ -35,8 +36,8 @@ const outfit = Outfit({
   display: "swap",
 });
 
-const SITE_URL = "https://exchangoio.vercel.app";
-const TITLE = "Currency Converter | exchango";
+const SITE_URL = "https://sedie.vercel.app";
+const TITLE = "Currency Converter | sedie";
 const DESCRIPTION =
   "Convert currencies with real-time rates and a clean, mobile-first interface.";
 
@@ -45,8 +46,8 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   keywords:
-    "currency converter, money exchange, exchango, exchange rates, free currency converter, currency converter ghana, simple currency converter, fast currency converter, convert currencies online",
-  authors: [{ name: "exchango" }],
+    "currency converter, money exchange, sedie, exchange rates, free currency converter, currency converter ghana, simple currency converter, fast currency converter, convert currencies online",
+  authors: [{ name: "sedie" }],
   alternates: {
     canonical: SITE_URL,
   },
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Exchango",
+    title: "sedie",
   },
 };
 

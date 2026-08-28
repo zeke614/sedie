@@ -1,6 +1,6 @@
-# 🌍 exchango
+# 🌍 sedie
 
-**exchango** is a fast, free, and highly secure currency converter web app. Originally built with React, now migrated to Next.js, TypeScript, and Tailwind CSS, it offers instant conversion between 150+ global currencies, interactive historical data, and supports multiple languages. 
+**sedie** is a fast, free, and highly secure currency converter web app. Originally built with React, now migrated to Next.js, TypeScript, and Tailwind CSS, it offers instant conversion between 150+ global currencies, interactive historical data, and supports multiple languages.
 
 ## ✨ Features
 
@@ -33,14 +33,17 @@
 - Italian 🇮🇹
 
 ## 🚧 Continuous Improvement
-**exchango** is an evolving project. Now powered by a robust Next.js backend, new features, enhancements, and improvements will be added over time as the app scales. **Stay tuned for updates, and feel free to contribute or provide feedback!**
+
+**sedie** is an evolving project. Now powered by a robust Next.js backend, new features, enhancements, and improvements will be added over time as the app scales. **Stay tuned for updates, and feel free to contribute or provide feedback!**
 
 > ## 🧪 To Do/Future Updates
+>
 > - Add user accounts to save favorite currency pairs
 > - Implement push notifications for specific rate drops
 > - Expanded language support
 
 ## 👨🏾‍💻 Developer
+
 Made with ❤️ and Next.js by **Ezekiel**
 
 ## 🔧 Setup & Installation
@@ -48,5 +51,6 @@ Made with ❤️ and Next.js by **Ezekiel**
 1. **Clone the repo**
 
 ```bash
-git clone https://github.com/zeke614/exchango.git
-cd exchango
+git clone https://github.com/zeke614/sedie.git
+cd sedie
+```

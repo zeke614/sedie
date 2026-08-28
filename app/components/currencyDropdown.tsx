@@ -46,10 +46,8 @@ export default function CurrencyDropdown({ selected, setSelected }: Props) {
         onClick={toggleDropdown}
         className="flex items-center w-fit gap-2 cursor-pointer"
       >
-        <img
-          src={`https://flagcdn.com/${selected.flag}.svg`}
-          alt="Flag"
-          className="w-5 h-3.5 rounded-none object-cover"
+        <span
+          className={`fi fi-${selected.flag.toLowerCase()} w-5 h-4 rounded-none shrink-0 shadow-sm`}
         />
         <span className="text-[17px] font-medium">{selected.code}</span>
         <ChevronDownIcon
@@ -92,10 +90,8 @@ export default function CurrencyDropdown({ selected, setSelected }: Props) {
                       className="w-full flex items-center justify-between px-1 rounded-none hover:bg-gray-50 dark:hover:bg-white/5.5 cursor-pointer"
                     >
                       <div className="flex items-center gap-2">
-                        <img
-                          src={`https://flagcdn.com/${currency.flag}.svg`}
-                          alt={`${currency.name} flag`}
-                          className="w-5 h-4 object-cover rounded-none"
+                        <span
+                          className={`fi fi-${currency.flag.toLowerCase()} w-5 h-3.5 rounded-none shrink-0 shadow-sm`}
                         />
                         <span>{currency.code}</span>
                         <span className="text-black/65 dark:text-gray-200 text-sm">

@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Currency Converter | exchango",
-    short_name: "exchango",
+    name: "Currency Converter | sedie",
+    short_name: "sedie",
     description:
       "Convert currencies with real-time rates and a clean, mobile-first interface.",
     start_url: "/",
