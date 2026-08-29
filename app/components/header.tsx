@@ -9,6 +9,7 @@ import countriesData from "@/app/lib/data";
 import {
   CheckIcon,
   ChevronDownIcon,
+  CowrieIcon,
   DesktopIcon,
   GlobeIcon,
   MobileIcon,
@@ -154,7 +155,20 @@ export default function Header() {
 
       <header className="w-full mx-auto max-w-3xl px-5 sm:px-8 lg:px-0">
         <div className="flex items-center justify-between h-15">
-          <a href="/" className="text-lg font-bold leading-none">
+          {/* <a
+            href="/"
+            className="flex items-center gap-1.5 text-lg font-bold leading-none"
+          >
+            <span>
+              sed<span className="text-[#256F5C]">ie</span>
+            </span>
+          </a> */}
+
+          <a
+            href="/"
+            className="flex items-center gap-1.5 text-lg font-bold leading-none"
+          >
+            <CowrieIcon className="size-5 text-[#256F5C]" />
             sedie
           </a>
 

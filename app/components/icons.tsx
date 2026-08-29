@@ -13,6 +13,17 @@ const baseProps = {
   focusable: false,
 } as const;
 
+export function CowrieIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <g transform="rotate(-35 12 12)">
+        <path d="M2 12 C2 8 6 4.5 12 4.5 C18 4.5 22 8 22 12 C22 16 18 19.5 12 19.5 C6 19.5 2 16 2 12 Z" />
+        <path d="M4 12 L6 10 L8 14 L10 10 L12 14 L14 10 L16 14 L18 10 L20 12" />
+      </g>
+    </svg>
+  );
+}
+
 export function ChevronDownIcon(props: IconProps) {
   return (
     <svg {...baseProps} {...props}>

@@ -1,7 +1,12 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { XLogoIcon, InstagramIcon, GithubIcon } from "@/app/components/icons";
+import {
+  CowrieIcon,
+  XLogoIcon,
+  InstagramIcon,
+  GithubIcon,
+} from "@/app/components/icons";
 
 type SocialLink = {
   label: string;
@@ -33,7 +38,10 @@ export default function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_2fr] gap-10 sm:gap-4 py-12">
           <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-3">
-            <h2 className="text-lg font-bold leading-none">sedie</h2>
+            <h2 className="flex items-center gap-1.5 text-lg font-bold leading-none">
+              <CowrieIcon className="size-4.5 text-[#256F5C]" />
+              sedie
+            </h2>{" "}
             <p className="text-black/60 dark:text-gray-300 leading-relaxed whitespace-pre-line max-w-[22ch] md:max-w-none">
               {t("footer.value")}
             </p>
