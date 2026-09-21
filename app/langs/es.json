@@ -37,14 +37,14 @@
   },
   "updated": {
     "relative": {
-      "seconds_one": "Actualizado hace {{count}} segundo",
-      "seconds_other": "Actualizado hace {{count}} segundos",
-      "minutes_one": "Actualizado hace {{count}} minuto",
-      "minutes_other": "Actualizado hace {{count}} minutos",
-      "hours_one": "Actualizado hace {{count}} hora",
-      "hours_other": "Actualizado hace {{count}} horas",
-      "days_one": "Actualizado hace {{count}} día",
-      "days_other": "Actualizado hace {{count}} días"
+      "seconds_one": "Tipos de cambio, de hace {{count}} segundo",
+      "seconds_other": "Tipos de cambio, de hace {{count}} segundos",
+      "minutes_one": "Tipos de cambio, de hace {{count}} minuto",
+      "minutes_other": "Tipos de cambio, de hace {{count}} minutos",
+      "hours_one": "Tipos de cambio, de hace {{count}} hora",
+      "hours_other": "Tipos de cambio, de hace {{count}} horas",
+      "days_one": "Tipos de cambio, de hace {{count}} día",
+      "days_other": "Tipos de cambio, de hace {{count}} días"
     }
   },
 

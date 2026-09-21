@@ -22,7 +22,7 @@ import {
 } from "@/app/lib/constants";
 import posthog from "posthog-js";
 import { PH_EVENTS } from "@/app/lib/constants";
-import { ChartSplineIcon } from "@/app/components/icons";
+import { ChartSplineIcon, WifiOffIcon } from "@/app/components/icons";
 
 dayjs.extend(utc);
 
@@ -157,7 +157,7 @@ function UnsupportedBaseMessage() {
 
   return (
     <div className="text-center py-10 px-6 text-black/65 dark:text-gray-200 flex flex-col items-center gap-2">
-      <span className="text-3xl">😕</span>
+      <span className="text-lg font-bold">Oops!</span>
       <p className="leading-relaxed max-w-xs">
         {t("chart.oops1")} <span className="font-bold">$ USD</span>{" "}
         {t("chart.oops2")}
@@ -171,7 +171,7 @@ function ChartErrorMessage({ onRetry }: { onRetry: () => void }) {
 
   return (
     <div className="text-center py-10 px-6 text-black/65 dark:text-gray-200 flex flex-col items-center gap-3">
-      <span className="text-3xl">📡</span>
+      <WifiOffIcon className="size-8 text-[#256F5C]/60" />{" "}
       <p className="leading-relaxed max-w-xs">
         {t("chart.errorMessage", {
           defaultValue:
@@ -378,7 +378,11 @@ function RateChart({
   );
 }
 
-export default function CurrencyHistoryChart({ base, target, currentRate }: Props) {
+export default function CurrencyHistoryChart({
+  base,
+  target,
+  currentRate,
+}: Props) {
   const { t } = useTranslation();
   const [range, setRange] = useState<Range>("1W");
   const [data, setData] = useState<DataPoint[]>([]);
@@ -418,7 +422,7 @@ export default function CurrencyHistoryChart({ base, target, currentRate }: Prop
       if (currentRate != null) {
         const todayStr = dayjs().utc().format("YYYY-MM-DD");
         const todayPoint = points.find((p) => p.date === todayStr);
-        
+
         if (todayPoint) {
           todayPoint.rate = currentRate; // Override with live data
         } else if (points.length > 0) {

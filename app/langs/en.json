@@ -37,14 +37,14 @@
   },
   "updated": {
     "relative": {
-      "seconds_one": "Updated {{count}} second ago",
-      "seconds_other": "Updated {{count}} seconds ago",
-      "minutes_one": "Updated {{count}} minute ago",
-      "minutes_other": "Updated {{count}} minutes ago",
-      "hours_one": "Updated {{count}} hour ago",
-      "hours_other": "Updated {{count}} hours ago",
-      "days_one": "Updated {{count}} day ago",
-      "days_other": "Updated {{count}} days ago"
+      "seconds_one": "Rates as of {{count}} second ago",
+      "seconds_other": "Rates as of {{count}} seconds ago",
+      "minutes_one": "Rates as of {{count}} minute ago",
+      "minutes_other": "Rates as of {{count}} minutes ago",
+      "hours_one": "Rates as of {{count}} hour ago",
+      "hours_other": "Rates as of {{count}} hours ago",
+      "days_one": "Rates as of {{count}} day ago",
+      "days_other": "Rates as of {{count}} days ago"
     }
   },
 

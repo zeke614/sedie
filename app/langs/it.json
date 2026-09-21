@@ -37,14 +37,14 @@
   },
   "updated": {
     "relative": {
-      "seconds_one": "Aggiornato {{count}} secondo fa",
-      "seconds_other": "Aggiornato {{count}} secondi fa",
-      "minutes_one": "Aggiornato {{count}} minuto fa",
-      "minutes_other": "Aggiornato {{count}} minuti fa",
-      "hours_one": "Aggiornato {{count}} ora fa",
-      "hours_other": "Aggiornato {{count}} ore fa",
-      "days_one": "Aggiornato {{count}} giorno fa",
-      "days_other": "Aggiornato {{count}} giorni fa"
+      "seconds_one": "Tassi al momento di {{count}} secondo fa",
+      "seconds_other": "Tassi al momento di {{count}} secondi fa",
+      "minutes_one": "Tassi al momento di {{count}} minuto fa",
+      "minutes_other": "Tassi al momento di {{count}} minuti fa",
+      "hours_one": "Tassi al momento di {{count}} ora fa",
+      "hours_other": "Tassi al momento di {{count}} ore fa",
+      "days_one": "Tassi al momento di {{count}} giorno fa",
+      "days_other": "Tassi al momento di {{count}} giorni fa"
     }
   },
 
